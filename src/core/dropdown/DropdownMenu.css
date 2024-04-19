@@ -1,0 +1,28 @@
+.dropdown-menu {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    box-shadow: 0 0 8px 1px rgba(33, 41, 60, .1);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #Fff;
+    padding: 10px;
+    width: 180px;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        padding-left: 10px;
+
+        hr {
+            opacity: 0.3;
+        }
+
+        li {
+            font-size: 14px;
+            padding: 4px 0;
+            cursor: pointer;
+        }
+    }
+}

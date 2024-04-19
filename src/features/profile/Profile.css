@@ -1,0 +1,88 @@
+.user-wrapper {
+    width: 80%;
+    max-width: 700px;
+    margin: 40px auto;
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+
+    .user-card {
+        display: flex;
+        gap: 20px;
+
+        img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+        }
+
+        .user-data {
+            p:last-child {
+                font-weight: lighter;
+                margin-top: 0;
+            }
+        }
+    }
+
+    .edit-option {
+        display: flex;
+        align-items: center;
+
+        button {
+            height: min-content;
+            padding: 15px 20px;
+            color: #fff;
+            text-align: center;
+            outline: none;
+            cursor: pointer;
+            outline: none;
+            border-radius: 4px;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    }
+}
+
+.chip-menu {
+    margin: 30px 0;
+    display: flex;
+    gap: 10px;
+
+    .chip-item {
+        background-color: transparent;
+        border: 1px solid #ccc;
+        color: #4b587c;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        padding: 8px 16px;
+        cursor: pointer;
+    }
+    
+    .chip-item:first-child,
+    .chip-item:hover {
+        border: 1px solid transparent;
+        background-color: #eef2ff;
+        color: #005ef6;
+    }
+}
+
+.about-user {
+    .title-section {
+        font-size: 14px;
+        color: #4b587c;
+        font-weight: bold;
+    }
+    
+    .info{
+        background-color: #f5f8ff;
+        color: #4b587c;
+        padding: 20px;
+        margin: 20px 0;
+    }
+}

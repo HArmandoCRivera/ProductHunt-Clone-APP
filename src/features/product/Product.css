@@ -1,0 +1,107 @@
+.loading{
+    margin: 40px auto;
+}
+
+.product-wrapper {
+    width: 80%;
+    max-width: 700px;
+    margin: 30px auto;
+
+    .logo-rank {
+        display: flex;
+        justify-content: space-between;
+
+        img.product-img {
+            border-radius: 4px;
+            width: 58px;
+            height: 58px;
+        }
+
+        .rank {
+            color: #7d8ab0;
+            font-size: 20px;
+            font-weight: bold;
+
+            .number {
+                font-size: 48px;
+            }
+        }
+    }
+
+    .data-actions {
+        display: flex;
+        justify-content: space-between;
+
+        .product-data {
+            h2 {
+                color: #ccc;
+                margin-bottom: 10px;
+            }
+
+            div {
+                color: #4b587c;
+                font-size: 24px;
+                line-height: 32px;
+                font-weight: lighter;
+                margin: 0
+            }
+        }
+
+        .product-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+
+            button {
+                height: min-content;
+                padding: 20px 25px;
+                color: #fff;
+                text-align: center;
+                outline: none;
+                cursor: pointer;
+                outline: none;
+                border-radius: 4px;
+                margin-left: 10px;
+            }
+            
+            button.visit-action {
+                background-color: #fff;
+                color: #000;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px
+            }
+            
+            button.vote-action {
+                border: none;
+                font-weight: bold;
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                align-items: center;
+                background-color: #ff6154;
+            }
+        }
+    }
+
+    .description{
+        margin: 20px 0;
+        color: #21293c;
+    }
+
+    .categories{
+        display: flex;
+        gap: 10px;
+        span{
+            background-color: #eef2ff;
+            color: #4b587c;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px;
+        }
+    }
+}

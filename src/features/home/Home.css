@@ -1,0 +1,142 @@
+.landing {
+    display: flex;
+    margin: 30px auto;
+    justify-content: center;
+}
+
+.home-wrapper {
+    width: 700px;
+    margin-right: 50px;
+
+    .welcome-banner {
+        padding: 1.25rem;
+        background-color: #f5f8ff;
+        border-radius: 4px;
+
+        h2,
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .top-products {
+        width: 100%;
+
+        h2 {
+            color: #212946;
+            font-weight: 500;
+        }
+
+        hr {
+            opacity: 0.3;
+        }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+    }
+}
+
+.extra-info {
+    width: 300px;
+    padding-left: 50px;
+    border-left: 1px solid #d9e1ec;
+
+    .quick-link{
+        font-size: 12px;
+        cursor: pointer;
+    }
+    .brand-register{
+        margin-top: 20px;
+        font-size: 10px;
+    }
+}
+
+
+.card-wrapper {
+    display: flex;
+    justify-content: space-between;
+    background: rgb(255, 255, 255);
+    transition: all 1.1s ease-out;
+    padding: 10px 10px 10px 0;
+    border-radius: 8px;
+
+    .product-data {
+        display: flex;
+        gap: 15px;
+
+        img.product-img{
+            border-radius: 4px;
+        }
+    }
+
+    .card-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        .product-header {
+            display: flex;
+
+            .product-name {
+                font-weight: bold;
+            }
+
+            .divider {
+                margin: 0 8px;
+            }
+        }
+
+        .product-desc {
+            font-size: 12px;
+
+            .comments-count {
+                margin-right: 10px;
+                color: #4b587c;
+                cursor: pointer;
+
+                .comment-icon {
+                    font-size: 12px;
+                }
+            }
+
+            .comments-count:hover {
+                color: #ff6154;
+            }
+
+            .product-tag {
+                margin: 0 10px;
+                cursor: pointer;
+            }
+
+            .product-tag:hover {
+                text-decoration: underline;
+            }
+        }
+
+    }
+
+    button.vote-action {
+        background-color: white;
+        padding: 5px 10px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        min-width: 50px;
+        height: 45px;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+
+    button.vote-action:hover {
+        border-color: #ff6154;
+        cursor: pointer;
+    }
+}
+
+.card-wrapper:hover {
+    cursor: pointer;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 70%, rgba(255, 179, 173, 0.2) 90%, rgba(255, 97, 84, 0.2) 100%);
+}

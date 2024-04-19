@@ -1,0 +1,123 @@
+.header {
+    background-color: rgb(255, 255, 255);
+    padding: 12px 0;
+    border-bottom: 1px solid #e8e8e8;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+
+    .branding-search {
+        display: flex;
+
+        a.logo-link {
+            color: #4b587c;
+            font-size: 16px;
+            text-decoration-line: none;
+        }
+
+        img.logo {
+            width: 30px;
+        }
+
+        .search-bar {
+            padding: 8px 14px;
+            margin: 0 6px 0 30px;
+            border-radius: 20px;
+            border: 1px solid #e8e8e8;
+            background-color: #f3f6fd;
+            font-size: 15px;
+            width: 200px;
+            display: flex;
+            align-items: center;
+            height: 13px;
+
+            .search-icon {
+                color: #4b587c;
+                margin-right: 2px;
+            }
+
+            input.search-input {
+                width: 110px;
+                background-color: #f3f6fd;
+                border: none;
+                outline: none;
+                margin-left: 2px;
+            }
+        }
+    }
+
+    .nav-user-flex {
+        display: flex;
+        margin-top: 0;
+        align-items: center;
+        justify-content: center;
+
+        .nav-links-sec>a.nav-link {
+            color: #4b587c;
+            font-size: 14px;
+            padding-left: 30px;
+            align-items: center;
+            text-decoration-line: none;
+        }
+
+        .user-out-display {
+            display: flex;
+            margin-left: 510px;
+            align-items: center;
+
+            .nav-link {
+                color: #4b587c;
+                font-size: 14px;
+                text-decoration-line: none;
+            }
+        }
+
+        .user-login-display {
+            display: flex;
+            margin-left: 510px;
+            align-items: center;
+
+            .notification-icon {
+                font-size: 20px;
+                padding: 4px;
+                margin: 0 20px;
+                border-radius: 50%;
+                color: #4b587c;
+            }
+
+            .notification-icon:hover {
+                cursor: pointer;
+            }
+
+            .user-menu {
+                position: relative;
+
+                img.user-avatar {
+                    width: 33px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .nav-links-sec>.nav-link:hover,
+        .user-login-display a.nav-link:hover {
+            color: #ff6154;
+        }
+
+
+        button.call-action {
+            margin-left: 16px;
+            cursor: pointer;
+            color: #ff6154;
+            background-color: #fef6f2;
+            outline: none;
+            border: none;
+            font-size: 15px;
+            border-radius: 4px;
+            padding: 6px 1rem;
+        }
+
+    }
+}

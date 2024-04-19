@@ -1,0 +1,208 @@
+{
+    "products": [
+        {
+            "name": "Retable",
+            "description": "Airtable alternative - one tool to replace them all",
+            "votes": 174,
+            "comments": 15,
+            "categories": [
+                "Productivity",
+                "Task Management",
+                "Spreadsheets"
+            ]
+        },
+        {
+            "name": "Ugly Duckling",
+            "description": "Consistency on 𝕏 made easier",
+            "votes": 196,
+            "comments": 15,
+            "categories": [
+                "Solo maker",
+                "Bootstrapped",
+                "Social Media"
+            ]
+        },
+        {
+            "name": "AI Product Design by Pietra",
+            "description": "Use AI to design products & packaging and get it made",
+            "votes": 170,
+            "comments": 15,
+            "categories": [
+                "Design Tools",
+                "E-Commerce",
+                "Design"
+            ]
+        },
+        {
+            "name": "IndiePulse",
+            "description": "Find your next side project in seconds",
+            "votes": 68,
+            "comments": 15,
+            "categories": [
+                "Bootstrapped",
+                "SaaS",
+                "Tech"
+            ]
+        },
+        {
+            "name": "Bridge",
+            "description": "An easy way for your users to give you feedback",
+            "votes": 54,
+            "comments": 15,
+            "categories": [
+                "User Experience",
+                "SaaS"
+            ]
+        },
+        {
+            "name": "AuthKit",
+            "description": "The world's best login box, powered by WorkOS + Radix",
+            "votes": 20,
+            "comments": 15,
+            "categories": [
+                "Api",
+                "SaaS",
+                "Developer Tools"
+            ],
+            "promoted": true
+        },
+        {
+            "name": "Open Agent Studio",
+            "description": "Build no-code agents to target markets untouched by AI",
+            "votes": 55,
+            "comments": 15,
+            "categories": [
+                "Marketing",
+                "Developer Tools",
+                "Artificial Intelligence"
+            ]
+        },
+        {
+            "name": "CalendarHunter",
+            "description": "Find calendly links and fast track your sales process",
+            "votes": 59,
+            "comments": 15,
+            "categories": [
+                "Sales",
+                "Social Media",
+                "Growth Hacking"
+            ]
+        },
+        {
+            "name": "HuggingChat",
+            "description": "Making the best AI chat models available to everyone",
+            "votes": 15,
+            "comments": 15,
+            "categories": [
+                "By Hugging Face",
+                "Artificial Intelligence",
+                "Bots"
+            ]
+        },
+        {
+            "name": "Super App Lock",
+            "description": "Lock & hide apps, protect privacy, screen time control",
+            "votes": 48,
+            "comments": 15,
+            "categories": [
+                "iOS",
+                "iPad",
+                "Apple"
+            ]
+        },
+        {
+            "name": "AI Flash.Cards",
+            "description": "Create personalized flashcards from any text or pdf file",
+            "votes": 31,
+            "comments": 15,
+            "categories": [
+                "Productivity",
+                "Education",
+                "Artificial Intelligence"
+            ]
+        },
+        {
+            "name": "Snowflake O'Reilly Report",
+            "description": "Design a Modern Application Data Stack",
+            "votes": 0,
+            "comments": 15,
+            "categories": []
+        },
+        {
+            "name": "Nothing Ear and Ear a",
+            "description": "The latest earphones from Nothing",
+            "votes": 11,
+            "comments": 15,
+            "categories": [
+                "Music"
+            ]
+        },
+        {
+            "name": "Magic Shortcut",
+            "description": "Supercharge your workflow with programmable shortcuts",
+            "votes": 28,
+            "comments": 15,
+            "categories": [
+                "Solo maker",
+                "Bootstrapped",
+                "Email"
+            ]
+        },
+        {
+            "name": "Linify",
+            "description": "Easy coach & enthusiasts sports software",
+            "votes": 21,
+            "comments": 15,
+            "categories": [
+                "Bootstrapped",
+                "Productivity",
+                "Sports"
+            ]
+        },
+        {
+            "name": "FamHive",
+            "description": "Shared calendar, to-do, rewards",
+            "votes": 10,
+            "comments": 15,
+            "categories": [
+                "Productivity",
+                "Parenting",
+                "Family"
+            ]
+        },
+        {
+            "name": "AiApply Website Builder",
+            "description": "Build a microsite/link in bio in minutes - free",
+            "votes": 17,
+            "comments": 15,
+            "categories": [
+                "Bootstrapped",
+                "Social Media",
+                "Website Builder"
+            ]
+        },
+        {
+            "name": "Guidde",
+            "description": "Magically create free video documentation with AI",
+            "votes": 177,
+            "comments": 15,
+            "categories": [
+                "Browser Extensions",
+                "Productivity",
+                "Customer Success"
+            ],
+            "promoted": true
+        },
+        {
+            "name": "GetAnyPlant",
+            "description": "A new way to explore and discover plants",
+            "votes": 6,
+            "comments": 15,
+            "categories": [
+                "Solo maker",
+                "Bootstrapped",
+                "E-Commerce"
+            ]
+        }
+    ]
+}
