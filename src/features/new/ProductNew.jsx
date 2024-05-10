@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { collection, addDoc } from "firebase/firestore/lite";
+import { collection, addDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../../firebaseConfig";
 import { useAuth } from '../../context/AuthContext';
@@ -40,8 +40,10 @@ export const ProductNew = (props) => {
             const docRef = await addDoc(collections, {
                 userId: userData?.uid,
                 title: preview.title,
+                tagline: preview.tagline,
                 desc: preview.desc,
-                topics: preview.topics,
+                link: preview.link,
+                topics: [preview.topics],
                 productImg: url || "",
                 created: Date.now()
             });

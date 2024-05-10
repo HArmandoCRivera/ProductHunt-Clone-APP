@@ -1,31 +1,45 @@
-import { collection, onSnapshot, query } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
+import { useEffect, useState } from "react";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
-const useSingleFetch = (collectionName, id, subCol) => {
+const useSingleFetch = (collectionName, id, subColName = null) => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const getSingleData = () => {
-      if (id) {
-        const postRef = query(collection(db, collectionName, id, subCol));
-        onSnapshot(postRef, (snapshot) => {
-          setData(
-            snapshot.docs.map((doc) => ({
-              ...doc.data(),
+    const fetchDocument = async () => {
+      try {
+        const docRef = doc(db, collectionName, id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          let fetchedData = docSnap.data();
+
+          if (subColName) {
+            const subColRef = collection(docRef, subColName);
+            const subColSnap = await getDocs(subColRef);
+            const subColData = subColSnap.docs.map(doc => ({
               id: doc.id,
-            }))
-          );
-          setLoading(false);
-        });
+              ...doc.data()
+            }));
+            fetchedData[subColName] = subColData;
+          }
+
+          setData(fetchedData);
+        } else {
+          console.error("No document found");
+        }
+      } catch (err) {
+        console.error(err.message);
+      } finally {
+        setLoading(false);
       }
     };
-    getSingleData();
-  }, [db, id]);
-  return {
-    data,
-    loading,
-  };
+
+    fetchDocument();
+  }, [collectionName, id, subColName]);
+
+  return { data, loading };
 };
 
 export default useSingleFetch;

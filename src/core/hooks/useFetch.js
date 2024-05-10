@@ -1,51 +1,98 @@
+import { useCallback, useEffect, useState } from 'react'
 import {
   collection,
-  doc,
-  getDoc,
-  getDocs,
-  onSnapshot,
-  orderBy,
   query,
-} from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import { db } from "../../firebase/firebase";
+  orderBy,
+  limit,
+  startAfter,
+  onSnapshot,
+} from 'firebase/firestore'
+import { db } from "../../firebaseConfig";
 
-const useFetch = (collectionName) => {
-  const [data, setData] = useState("");
-  const [loading, setLoading] = useState(true);
+const useFetch = (collectionName = 'products', LIMIT = 10) => {
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState([])
+  const [last, setLast] = useState(null)
+  const [moreLoading, setMoreLoading] = useState(false)
+  const [loadedAll, setLoadedAll] = useState(false)
+
+  const fetchData = useCallback(async () => {
+    const limitNumber = LIMIT + 1
+
+    const first = query(
+      collection(db, collectionName),
+      orderBy('created', 'desc'),
+      limit(limitNumber)
+    )
+
+    onSnapshot(first, (querySnapshot) => {
+      const docs = querySnapshot.docs.slice(0, LIMIT)
+      const data = docs.map((docSnapshot) => {
+        return {
+          id: docSnapshot.id,
+          ...docSnapshot.data(),
+        }
+      })
+      setData(data)
+
+      const lastVisible = docs[docs.length - 1]
+      setLast(lastVisible)
+
+      const size = querySnapshot.size
+      setLoadedAll(size < limitNumber)
+    })
+  }, [collectionName, LIMIT])
+
+
+  const fetchMoreData = useCallback(async () => {
+    const limitNumber = LIMIT + 1
+
+    const next = query(
+      collection(db, collectionName),
+      orderBy('created', 'desc'),
+      limit(limitNumber),
+      startAfter(last)
+    )
+
+    onSnapshot(next, (querySnapshot) => {
+      const docs = querySnapshot.docs.slice(0, LIMIT)
+      const data = docs.map((docSnapshot) => {
+        return {
+          id: docSnapshot.id,
+          ...docSnapshot.data(),
+        }
+      })
+      setData((prevState) => [...prevState, ...data])
+
+      const lastVisible = docs[docs.length - 1]
+      setLast(lastVisible)
+
+      const size = querySnapshot.size
+      setLoadedAll(size < limitNumber)
+    })
+  }, [last, collectionName, LIMIT])
+
+  const handleLoadMore = useCallback(() => {
+    setMoreLoading(true)
+    fetchMoreData().finally(() => {
+      setMoreLoading(false)
+    })
+  }, [fetchMoreData])
+
   useEffect(() => {
-    const getDatas = async () => {
-      const postRef = query(
-        collection(db, collectionName),
-        orderBy("created", "desc")
-      );
+    setLoading(true)
+    fetchData().finally(() => {
+      setLoading(false)
+    })
+  }, [fetchData])
 
-      const unsubscribe = onSnapshot(postRef, async (snapshot) => {
-        const postData = await Promise.all(
-          snapshot.docs.map(async (docs) => {
-            const postItems = { ...docs.data(), id: docs.id };
-            const userRef = doc(db, "users", postItems?.userId);
-            const getUser = await getDoc(userRef);
-
-            if (getUser.exists()) {
-              const { created, ...rest } = getUser.data();
-              return { ...postItems, ...rest };
-            }
-          })
-        );
-        setData(postData);
-        setLoading(false);
-      });
-
-      return () => unsubscribe();
-    };
-
-    getDatas();
-  }, [collectionName]);
   return {
-    data,
     loading,
-  };
-};
+    data,
+    moreLoading,
+    loadedAll,
+    handleLoadMore
+  }
+}
 
 export default useFetch;

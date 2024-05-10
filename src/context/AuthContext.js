@@ -1,6 +1,8 @@
 import { createContext, useContext, useState } from 'react';
 import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 import { auth } from '../firebaseConfig';
+import useFetch from '../core/hooks/useFetch';
+
 const provider = new GoogleAuthProvider();
 const AuthContext = createContext();
 
@@ -26,9 +28,18 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
     }
 
+    // loading,
+    // data,
+    // moreLoading,
+    // loadedAll,
+    // handleLoadMore
+
+
+    const { data: productData, loading: productLoading, moreLoading: moreProducts, loadedAll, handleLoadMore } = useFetch("products");
+
     return (
         <AuthContext.Provider value={{
-            isLoggedIn, login, logout, dispatchLogin, userData, publish, setPublish
+            isLoggedIn, login, logout, dispatchLogin, userData, publish, setPublish, productData, productLoading, moreProducts, loadedAll, handleLoadMore
         }}>
             {children}
         </AuthContext.Provider>

@@ -33,8 +33,9 @@
         justify-content: space-between;
 
         .product-data {
+            flex-direction: column;
             h2 {
-                color: #ccc;
+                color: #000;
                 margin-bottom: 10px;
             }
 

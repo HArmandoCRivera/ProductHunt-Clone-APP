@@ -1,67 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { BiSolidUpArrow } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
 import { Header } from '../../core/header/Header'
+import useSingleFetch from '../../core/hooks/useSingleFetch';
+import Loading from '../../core/loading/loading';
 import './Product.css';
+import Comment from './actions/Comment';
 
 export const Product = (props) => {
     const { id } = useParams();
-    const [product, setProduct] = useState(null);
-    const [voted, setVoted] = useState(false);
-
-    useEffect(() => {
-        fetch('/products.json')
-            .then(response => response.json())
-            .then(data => {
-                const foundProduct = data.products[parseInt(id)];
-                setProduct(foundProduct);
-            })
-            .catch(err => console.log(err));
-    }, [id]);
-
-    const vote = () => {
-        if (!voted) {
-            const totalVotes = product.votes + 1;
-            setProduct({ ...product, votes: totalVotes });
-            setVoted(true);
-        }
-    }
+    const { data: product, loading } = useSingleFetch("products", id);
 
     return (
         <div>
             <header>
                 <Header />
             </header>
-            {(product) ? (
+            {(loading) ? (<Loading />) : (
                 <div className='product-wrapper'>
                     <div className="logo-rank">
-                        <img src={`https://picsum.photos/48/48?random=${Math.random()}`} alt={product.name} className="product-img" />
+                        <img src={product?.productImg} alt={product?.title} className="product-img" />
                         <div className='rank'>#<span className='number'>{parseInt(id) + 1}</span></div>
                     </div>
                     <div className="data-actions">
                         <div className="product-data">
-                            <h2>{product.name}</h2>
-                            <div>{product.description}</div>
+                            <h2>{product?.title}</h2>
+                            <div>{product?.tagline}</div>
                         </div>
 
                         <div className="product-actions">
-                            <button className='visit-action'>Visit <IoIosArrowDown /></button>
-                            <button className='vote-action' onClick={() => vote()}><BiSolidUpArrow /> UPVOTE {product.votes}</button>
+                            <a href={product?.link} target="_blank" rel="noreferrer"><button className='visit-action'>Visit <IoIosArrowDown /></button></a>
+                            <button className='vote-action' onClick={() => { }}><BiSolidUpArrow /> UPVOTE {product?.votes}</button>
                         </div>
                     </div>
 
                     <div className='description'>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Laboriosam, cum rerum? Nihil fugit fuga iure cupiditate, voluptas dicta suscipit inventore illum obcaecati id rerum incidunt at dolore architecto repellat repellendus.
+                        {product?.desc}
                     </div>
 
                     <div className='categories'>
                         Launched in
-                        {product.categories.map((category, index) => (
+                        {!Array.isArray(product.topics) ? (<span className="product-tag">Nothing</span>) : product.topics?.map((category, index) => (
                             <span className="product-tag">{category}</span>
                         ))}
                     </div>
-                </div>) : (<div className="loading">Loading...</div>)}
+
+                    <Comment postId={id} />
+                </div>
+            )}
         </div>
     )
 }
