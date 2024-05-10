@@ -2,7 +2,7 @@ import React from "react";
 
 const Loading = () => {
     return (
-        <div styles="width: 100%;margin:0 auto">
+        <div style={{ textAlign: 'center', width: '100%', margin: '5% 0' }}>
             Cargando...
         </div>
     );

@@ -1,6 +1,5 @@
 import React from 'react'
 import './Login.css';
-import { signInWith } from "firebase/auth"
 
 export const Login = (props) => {
     const onClose = e => {

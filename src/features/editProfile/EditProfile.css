@@ -1,0 +1,56 @@
+main {
+    width: 700px;
+    margin-right: 50px;
+    margin: 30px auto;
+}
+
+.formfield-name {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+
+.formfield-photo input[type="file"],
+.formfield-name input[type="text"] {
+    display: block;
+    margin-top: 5px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #b9b9b9;
+    box-sizing: border-box;
+}
+
+.formfield-photo {
+    display: flex;
+}
+
+.formfield-name label,
+.formfield-photo label {
+    font-weight: 500;
+}
+
+.formfield-photo .hint {
+    font-size: 14px;
+
+}
+
+img.user-avatar {
+    width: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.save-button {
+    background-color: #ff6154;
+    color: #fff;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    padding: 15px 25px;
+    margin-top: 20px;
+}
