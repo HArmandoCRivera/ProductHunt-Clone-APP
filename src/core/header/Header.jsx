@@ -2,20 +2,17 @@ import React, { useState } from 'react'
 import { TfiSearch } from "react-icons/tfi";
 import { BsBell } from "react-icons/bs";
 import { useAuth } from '../../context/AuthContext';
-import { Modal } from '../modal/Modal';
+import { Login } from '../login/Login';
 import { DropDownMenu } from '../dropdown/DropdownMenu'
-import { useNavigate } from 'react-router-dom';
 import './Header.css';
 import { Link } from 'react-router-dom'
 
 export const Header = (props) => {
-    const { isLoggedIn, login } = useAuth();
+    const { isLoggedIn, login, userData } = useAuth();
     const [isOpenLogin, setOpenLogin] = useState(false);
 
-    const handleSignIn = () => {
-        login();
-        setDropdownVisible(false);
-        setOpenLogin(false);
+    const handleSignIn = async () => {
+        await login();
     }
     const showLogin = e => {
         setOpenLogin(!isOpenLogin);
@@ -24,7 +21,7 @@ export const Header = (props) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
 
     const handleUserMenu = () => {
-      setDropdownVisible(!isDropdownVisible);
+        setDropdownVisible(!isDropdownVisible);
     };
     return (
         <>
@@ -51,11 +48,13 @@ export const Header = (props) => {
                     </div>
                     {isLoggedIn ? (
                         <div className="user-login-display">
-                            <button className="call-action">Submit</button>
+                            <Link to="/new">
+                                <button className="call-action">Submit</button>
+                            </Link>
                             <BsBell className="notification-icon" />
                             <div className='user-menu'>
                                 <img
-                                    src="/images/avatar.jpg"
+                                    src={userData?.photoURL ?? "/images/avatar.jpg"}
                                     className="user-avatar"
                                     alt="user-avatar"
                                     onClick={() => handleUserMenu()}
@@ -73,7 +72,7 @@ export const Header = (props) => {
                 </div>
             </div>
 
-            <Modal show={isOpenLogin} onClose={showLogin} onLogin={handleSignIn} />
+            <Login show={isOpenLogin} onClose={showLogin} onLogin={handleSignIn} />
         </>
     )
 }

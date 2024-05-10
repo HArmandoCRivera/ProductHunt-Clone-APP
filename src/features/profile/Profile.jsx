@@ -1,8 +1,13 @@
 import React from 'react'
 import { Header } from '../../core/header/Header'
 import './Profile.css';
+import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext';
 
 export const Profile = () => {
+  const { userData } = useAuth();
+  
+
   return (
     <div>
       <header>
@@ -11,15 +16,15 @@ export const Profile = () => {
       <div className='user-wrapper'>
         <div className="user-header">
           <div className='user-card'>
-            <img src="/images/avatar.jpg" />
-            <div class="user-data">
-              <h3>Hugo Castrillon</h3>
-              <p>System Engineer</p>
+            <img src={userData.photoURL ?? "/images/avatar.jpg"} alt="avatar" />
+            <div className="user-data">
+              <h3>{userData.displayName}</h3>
+              <p>{userData.email}</p>
               <p>#541984 0 followers 0 following</p>
             </div>
           </div>
-          <div class="edit-option">
-            <button>Edit my profile</button>
+          <div className="edit-option">
+            <Link to="edit"><button>Edit my profile</button></Link>
           </div>
         </div>
 

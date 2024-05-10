@@ -1,0 +1,76 @@
+.product-wrapper {
+    width: 80%;
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+.product-form-card {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: #f3f6fd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .1), 0 1px 4px rgba(0, 0, 0, .05);
+}
+
+.pricing,
+.product-form-card label {
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.product-form-card label .hint {
+    font-weight: normal;
+    color: #5e5e5e;
+}
+
+.product-form-card label input[type="text"],
+.product-form-card label input[type="file"],
+.product-form-card label textarea {
+    display: block;
+    margin-top: 5px;
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #b9b9b9;
+    box-sizing: border-box;
+}
+
+.group-price {
+    display: flex;
+    align-items: center;
+}
+
+.group-price label {
+    font-weight: normal;
+    margin-right: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+button.new-post {
+    background-color: #ff6154;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 16px;
+    color: white;
+    width: fit-content;
+    cursor: pointer;
+}
+
+button.new-post:hover {
+    background-color: #e64132;
+}
+button.new-post:disabled {
+    opacity: 0.8;
+    pointer-events: none;
+}

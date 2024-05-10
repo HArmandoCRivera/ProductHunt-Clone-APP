@@ -47,9 +47,23 @@
             cursor: pointer;
             transition: 0.8s ease-out;
         }
+        button.twitter-login{
+            padding: 15px 40px;
+            background-color: rgb(191, 215, 248);
+            border: 1px solid #a8b8ee;
+            outline: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.8s ease-out;
+        }
 
         button.google-login:hover{
             background-color: rgb(194, 194, 194);
+        }
+
+        button.twitter-login:hover{
+            background-color: rgb(72, 148, 199);
         }
 
         p.caption {

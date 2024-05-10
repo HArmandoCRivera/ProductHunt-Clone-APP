@@ -1,8 +1,8 @@
 import React from 'react'
-import './Modal.css';
+import './Login.css';
+import { signInWith } from "firebase/auth"
 
-
-export const Modal = (props) => {
+export const Login = (props) => {
     const onClose = e => {
         props.onClose && props.onClose(e);
         e.preventDefault();
@@ -27,6 +27,7 @@ export const Modal = (props) => {
                             <h3 className='title'>Sign up on Product Hunt</h3>
                             <p className='description'>Join our community of friendly folks discovering and sharing the latest products in tech.</p>
                             <button className='google-login' onClick={onLogin}>Sign in with Google</button>
+                            <button className='twitter-login' onClick={onLogin}>Sign in with Twitter</button>
                             <p className='caption'>We'll never post to any of your accounts without your permission.</p>
                         </div>
                     </div>

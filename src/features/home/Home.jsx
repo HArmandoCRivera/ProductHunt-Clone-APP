@@ -4,9 +4,12 @@ import { FaRegComment } from "react-icons/fa";
 import { BiSolidUpArrow } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
 import { Header } from '../../core/header/Header'
+import { auth } from '../../firebaseConfig';
+import { getRedirectResult } from 'firebase/auth';
+import { useAuth } from '../../context/AuthContext';
 
 export const Home = () => {
-
+  const { dispatchLogin } = useAuth();
   const [productsData, setProductsData] = useState([]);
 
   useEffect(() => {
@@ -18,6 +21,20 @@ export const Home = () => {
       .catch(error => console.error('Error loading the products data:', error));
   }, []);
 
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(function (result) {
+        console.log(result);
+        if (result?.user) {
+          dispatchLogin(result.user);
+        }
+      })
+      .catch(function (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  }, [dispatchLogin]);
 
   return (
     <div>
@@ -36,7 +53,7 @@ export const Home = () => {
             <hr />
             <div className="product-list">
               {productsData.map((product, index) => (
-                <ProductCard productKey={index} data={product} />
+                <ProductCard key={index} productKey={index} data={product} />
               ))}
             </div>
           </div>
@@ -58,13 +75,12 @@ export const ProductCard = (props) => {
   const navigate = useNavigate();
 
   const goToProduct = () => {
-    console.log(props);
     navigate('/product/' + props.productKey);
   }
 
   return (
-    <div key={props.productKey} className="card-wrapper" onClick={() => goToProduct()}>
-      <div className='product-data'>
+    <div key={props.productKey} className="card-wrapper">
+      <div className='product-data' onClick={() => goToProduct()}>
         <img src={`https://picsum.photos/48/48?random=${Math.random()}`} alt={props.data.name} className="product-img" />
         <div className="card-content">
           <div className="product-header">
@@ -75,7 +91,7 @@ export const ProductCard = (props) => {
           <div className="product-desc">
             <span className="comments-count"><FaRegComment className="comment-icon" /> {props.data.comments}</span>•
             {props.data.categories.map((category, index) => (
-              <><span className="product-tag">{category}</span>•</>
+              <span key={index}><span className="product-tag">{category}</span>•</span>
             ))}
           </div>
         </div>
