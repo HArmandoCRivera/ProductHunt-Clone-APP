@@ -10,10 +10,10 @@ import Vote from './actions/Vote';
 
 export const Product = (props) => {
     const { id } = useParams();
-    const { data: product, loading } = useSingleFetch("products", id);
+    const { data: product, loading, rank } = useSingleFetch("products", id);
 
     return (
-        <div>
+        <div>   
             <header>
                 <Header />
             </header>
@@ -21,7 +21,7 @@ export const Product = (props) => {
                 <div className='product-wrapper'>
                     <div className="logo-rank">
                         <img src={product?.productImg} alt={product?.title} className="product-img" />
-                        <div className='rank'>#<span className='number'>{parseInt(product?.votes.length) + 1}</span></div>
+                        <div className='rank'>#<span className='number'>{rank}</span></div>
                     </div>
                     <div className="data-actions">
                         <div className="product-data">

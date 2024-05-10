@@ -42,7 +42,7 @@ export const Header = (props) => {
                 <div className="nav-user-flex">
                     <div className="nav-links-sec">
                         <NavLinks url="##" name="Launches" />
-                        <NavLinks url={paths.PRODUCTS} name="Products" />
+                        <NavLinks url={'/'+paths.PRODUCTS} name="Products" />
                         <NavLinks url="##" name="News" />
                         <NavLinks url="##" name="Community" />
                         <NavLinks url="##" name="Advertise" />

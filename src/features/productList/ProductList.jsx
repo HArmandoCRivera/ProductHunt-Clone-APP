@@ -26,7 +26,7 @@ export const ProductList = () => {
 
   return (
     <div className="product-list">
-      {productLoading ? (<Loading />) : (productData && productData?.map((product, index) => (
+      {productLoading ? (<Loading />) : (productData && productData?.sort((a, b) => b.votes.length - a.votes.length).map((product, index) => (
         <ProductCard key={index} productKey={index} data={product} />
       )))}
     </div>

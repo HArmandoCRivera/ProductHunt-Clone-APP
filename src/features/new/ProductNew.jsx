@@ -24,7 +24,19 @@ export const ProductNew = (props) => {
     };
     const [preview, setPreview] = useState(initialForm);
 
+    const validateForm = () => {
+        const requiredFields = [preview.title, preview.tagline, preview.link, imageUrl, preview.desc];
+        if (requiredFields.some(field => !field)) {
+            alert("Please fill out all required fields.");
+            return false;
+        }
+        return true;
+    }
+
     const handleSubmit = async () => {
+        if (!validateForm()) {
+            return;
+        }
         setLoading(true);
         try {
             const collections = collection(db, "products");
