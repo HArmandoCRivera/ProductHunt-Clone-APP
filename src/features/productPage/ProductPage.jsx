@@ -1,10 +1,9 @@
 import React from 'react'
 import { Header } from '../../core/header/Header'
-import './Home.css';
+import './ProductPage.css';
 import { ProductList } from '../productList/ProductList';
-export const Home = () => {
 
-
+export const ProductPage = () => {
   return (
     <div>
       <header>
@@ -13,12 +12,11 @@ export const Home = () => {
       <div className='landing'>
         <div className="home-wrapper">
           <div className="welcome-banner">
-            <h2>Welcome to Product Hunt! 👋</h2>
-            <p>The place to launch and discover new tech products.</p>
+            <h1>The best products in 2024</h1>
+            <p>Tried, tested, and reviewed by the community</p>
           </div>
 
           <div className="top-products">
-            <h2>Top Products Launching Today</h2>
             <hr />
             <ProductList />
           </div>
@@ -33,5 +31,4 @@ export const Home = () => {
       </div >
     </div >
   )
-}
-
+};

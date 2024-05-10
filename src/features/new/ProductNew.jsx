@@ -45,6 +45,8 @@ export const ProductNew = (props) => {
                 link: preview.link,
                 topics: [preview.topics],
                 productImg: url || "",
+                votes:[],
+                comments:[],
                 created: Date.now()
             });
             console.log("Document written with ID: ", docRef.id);

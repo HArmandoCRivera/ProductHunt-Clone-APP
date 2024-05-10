@@ -1,8 +1,9 @@
 import React from 'react'
 import { FaRegComment } from "react-icons/fa";
-import { BiSolidUpArrow } from "react-icons/bi";
 import { useNavigate } from 'react-router-dom';
+import { BiSolidUpArrow } from "react-icons/bi";
 import './ProductCard.css';
+import Vote from './actions/Vote';
 
 export const ProductCard = (props) => {
 
@@ -25,14 +26,14 @@ export const ProductCard = (props) => {
                         <span className="product-slogan">{props?.data?.tagline ?? ''}</span>
                     </div>
                     <div className="product-desc">
-                        <span className="comments-count"><FaRegComment className="comment-icon" /> {props?.data?.comments ?? 0}</span>
+                        <span className="comments-count"><FaRegComment className="comment-icon" /> {props?.data?.comments.length ?? 0}</span>
                         {!Array.isArray(props.data.topics) ? (<span className="product-tag">Nothing</span>) : (props.data.topics.map((category, index) => (
                             <span key={index}>•<span className="product-tag">{category}</span></span>
                         )))}
                     </div>
                 </div>
             </div>
-            <button className='vote-action'> <BiSolidUpArrow /><div className='total-votes'>{props?.data?.votes ?? 0}</div></button>
+            <Vote votes={props.data.votes} id={props.data.id} />
         </div>
     )
 }

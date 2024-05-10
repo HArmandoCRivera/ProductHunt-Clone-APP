@@ -85,6 +85,11 @@
                 align-items: center;
                 background-color: #ff6154;
             }
+            button.vote-action.vote-action-active{
+                color: #ff6154;
+                border: 1px solid #ff6154 !important;
+                background-color: white !important;
+            }
         }
     }
 

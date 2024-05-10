@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { doc, getDoc, collection, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
-const useSingleFetch = (collectionName, id, subColName = null) => {
+const useSingleFetch = (collectionName, id) => {
   const [data, setData] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -13,19 +13,7 @@ const useSingleFetch = (collectionName, id, subColName = null) => {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          let fetchedData = docSnap.data();
-
-          if (subColName) {
-            const subColRef = collection(docRef, subColName);
-            const subColSnap = await getDocs(subColRef);
-            const subColData = subColSnap.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data()
-            }));
-            fetchedData[subColName] = subColData;
-          }
-
-          setData(fetchedData);
+          setData(docSnap.data());
         } else {
           console.error("No document found");
         }
@@ -37,7 +25,7 @@ const useSingleFetch = (collectionName, id, subColName = null) => {
     };
 
     fetchDocument();
-  }, [collectionName, id, subColName]);
+  }, [collectionName, id]);
 
   return { data, loading };
 };

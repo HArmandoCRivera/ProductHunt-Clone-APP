@@ -6,6 +6,7 @@ import { Login } from '../login/Login';
 import { DropDownMenu } from '../dropdown/DropdownMenu'
 import './Header.css';
 import { Link } from 'react-router-dom'
+import paths from '../../routes/paths';
 
 export const Header = (props) => {
     const { isLoggedIn, login, userData } = useAuth();
@@ -41,7 +42,7 @@ export const Header = (props) => {
                 <div className="nav-user-flex">
                     <div className="nav-links-sec">
                         <NavLinks url="##" name="Launches" />
-                        <NavLinks url="##" name="Products" />
+                        <NavLinks url={paths.PRODUCTS} name="Products" />
                         <NavLinks url="##" name="News" />
                         <NavLinks url="##" name="Community" />
                         <NavLinks url="##" name="Advertise" />
@@ -79,8 +80,8 @@ export const Header = (props) => {
 
 const NavLinks = (props) => {
     return (
-        <a href={props.url} onClick={props.onclick} className='nav-link'>
+        <Link to={props.url} onClick={props.onclick} className='nav-link'>
             {props.name}
-        </a>
+        </Link>
     );
 };

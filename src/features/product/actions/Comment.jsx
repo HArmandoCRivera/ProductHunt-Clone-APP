@@ -1,71 +1,88 @@
-import React, { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import useSingleFetch from '../../../core/hooks/useSingleFetch';
+import React, { useEffect, useState } from "react";
+import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useAuth } from '../../../context/AuthContext';
+import { MdDelete } from "react-icons/md";
 import { db } from "../../../firebaseConfig";
-import Loading from "../../../core/loading/loading"
+import { v4 as uuidv4 } from 'uuid';
+import './Comment.css';
 
 const Comment = ({ postId }) => {
     const { userData } = useAuth();
     const [comment, setComment] = useState("");
-    const { data, loading } = useSingleFetch("products", postId, "comments");
+    const [comments, setComments] = useState([]);
+    const commentRef = doc(db, "products", postId);
 
-    const writeComment = async () => {
-        if (!comment.trim()) {
-            console.warn("El comentario no puede estar vacío.");
-            return;
-        }
-        if (!userData || !userData.uid) {
-            console.warn("No se puede añadir el comentario. Usuario no autenticado.");
-            return;
-        }
-        try {
-            const commentsRef = collection(db, "products", postId, "comments");
+    useEffect(() => {
+        const docRef = doc(db, "products", postId);
+        onSnapshot(docRef, (snapshot) => {
+            setComments(snapshot.data().comments);
+        });
+    }, []);
 
-            await addDoc(commentsRef, {
-                commentText: comment,
-                created: Date.now(),
-                userId: userData.uid
-            });
-            console.success("Comment has been added");
+    const handleChangeComment = () => {
+        updateDoc(commentRef, {
+            comments: arrayUnion({
+                user: userData.uid,
+                userName: userData.displayName,
+                comment: comment,
+                createdAt: new Date(),
+                commentId: uuidv4(),
+            }),
+        }).then(() => {
             setComment("");
-        } catch (error) {
-            console.error(error.message);
-        }
+        });
     };
 
-    console.log({ commentdata: data });
+    const handleDeleteComment = (comment) => {
+        console.log(comment);
+        updateDoc(commentRef, {
+            comments: arrayRemove(comment),
+        })
+            .then((e) => {
+                console.log(e);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    };
     return (
         <>
-            <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder="What are your thoughts?"
-                className="w-full outline-none resize-none text-sm border px-2 pt-4" required></textarea>
-            <div className="flex items-center justify-end gap-4 mt-[1rem]">
-                <button onClick={() => setComment("")} className="text-sm">
-                    Cancel
-                </button>
-                <button
-                    onClick={writeComment}
-                    className="btn !text-xs !bg-green-700 !text-white !rounded-full">
-                    Response
-                </button>
-            </div>
-
-            {data && data.length === 0 ? (
-                <p>This post has no comments</p>
-            ) : (
-                <div className="border-t py-4 mt-8 flex flex-col gap-8">
-                    {data &&
-                        data.map((item, i) =>
-                            loading ? (
-                                <Loading />
-                            ) : (
-                                <>Si hay comentarios</>
-                                // <Comment item={item} postId={postId} key={i} />
-                            )
-                        )}
+            {comments !== null &&
+                comments.map(({ commentId, user, comment, userName, createdAt }, index) => (
+                    <div key={index} className="comment-wrap">
+                        <div className="unique-comment">
+                            <div className={`badge ${user === userData.uid ? "bg-success" : "bg-primary"}`} >
+                                {userName}
+                            </div>
+                            <div className="comment-content">
+                                {comment}
+                            </div>
+                        </div>
+                        <div className="delete-comment">
+                            {user === userData.uid && (
+                                <MdDelete className="delete-icon"
+                                    onClick={() => handleDeleteComment({ commentId, user, comment, userName, createdAt })}
+                                />
+                            )}
+                        </div>
+                    </div>
+                ))}
+            {(comments == null || !comments.length) && (<div className="no-content">Sin comentarios</div>)}
+            <hr />
+            {userData && (
+                <div className="comment-box">
+                    <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        placeholder="What do you thing?"
+                        className="comment-input" required></textarea>
+                    <div className="comment-actions">
+                        <button
+                            onClick={handleChangeComment}
+                            className="comment-response">
+                            Comment
+                        </button>
+                    </div>
                 </div>
             )}
         </>

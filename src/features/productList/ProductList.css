@@ -1,0 +1,57 @@
+.landing {
+    display: flex;
+    margin: 30px auto;
+    justify-content: center;
+}
+
+.home-wrapper {
+    width: 700px;
+    margin-right: 50px;
+}
+
+.welcome-banner {
+    padding: 1.25rem;
+    background-color: #f5f8ff;
+    border-radius: 4px;
+}
+
+.welcome-banner h2,
+.welcome-banner p {
+    margin: 0;
+    padding: 0;
+}
+
+.top-products {
+    width: 100%;
+}
+
+.top-products h2 {
+    color: #212946;
+    font-weight: 500;
+}
+
+.top-products hr {
+    opacity: 0.3;
+}
+
+.top-products .product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.extra-info {
+    width: 300px;
+    padding-left: 50px;
+    border-left: 1px solid #d9e1ec;
+}
+
+.quick-link {
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.brand-register {
+    margin-top: 20px;
+    font-size: 10px;
+}
