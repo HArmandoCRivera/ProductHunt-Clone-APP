@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { setDoc, getDoc, doc } from "firebase/firestore";
+import { auth, db } from '../../firebaseConfig';
+import { getRedirectResult } from 'firebase/auth';
 import { TfiSearch } from "react-icons/tfi";
 import { BsBell } from "react-icons/bs";
 import { useAuth } from '../../context/AuthContext';
 import { Login } from '../login/Login';
 import { DropDownMenu } from '../dropdown/DropdownMenu'
-import './Header.css';
 import { Link } from 'react-router-dom'
 import paths from '../../routes/paths';
+import './Header.css';
 
 export const Header = (props) => {
-    const { isLoggedIn, login, userData } = useAuth();
+    const { isLoggedIn, login, userData, dispatchLogin } = useAuth();
     const [isOpenLogin, setOpenLogin] = useState(false);
 
     const handleSignIn = async () => {
@@ -24,6 +27,42 @@ export const Header = (props) => {
     const handleUserMenu = () => {
         setDropdownVisible(!isDropdownVisible);
     };
+
+
+    useEffect(() => {
+        getRedirectResult(auth)
+            .then(async (result) => {
+                if (result?.user) {
+                    await dispatchLogin(result.user);
+                }
+            })
+            .catch(function (error) {
+                console.log({ error });
+            });
+    }, [dispatchLogin]);
+
+    useEffect(() => {
+        async function verifyUser() {
+            const ref = doc(db, "users", userData?.uid);
+            const userDoc = await getDoc(ref);
+
+            if (!userDoc.exists()) {
+                await setDoc(ref, {
+                    userId: userData?.uid,
+                    displayName: userData?.displayName,
+                    email: userData?.email,
+                    photoURL: userData?.photoURL,
+                    bio: "",
+                    follows: [],
+                    followers: [],
+                    created: Date.now(),
+                }).then((value) => {
+                });
+            }
+        }
+        verifyUser();
+    }, [userData]);
+
     return (
         <>
             <div className="header">
@@ -41,8 +80,8 @@ export const Header = (props) => {
                 </div>
                 <div className="nav-user-flex">
                     <div className="nav-links-sec">
-                        <NavLinks url="##" name="Launches" />
-                        <NavLinks url={'/'+paths.PRODUCTS} name="Products" />
+                        <NavLinks url={'/' + paths.PRODUCTS} name="Launches  " />
+                        <NavLinks url={'/' + paths.PRODUCTS} name="Products" />
                         <NavLinks url="##" name="News" />
                         <NavLinks url="##" name="Community" />
                         <NavLinks url="##" name="Advertise" />

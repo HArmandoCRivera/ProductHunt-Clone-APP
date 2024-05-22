@@ -6,15 +6,14 @@ import { db } from "../../../firebaseConfig";
 
 const Vote = ({ id, votes }) => {
   const { userData } = useAuth();
-  const [voted, setVoted] = useState(votes?.includes(userData.uid));
+  const [voted, setVoted] = useState(votes?.includes(userData?.uid));
   const votesRef = doc(db, "products", id);
 
   const handleVote = () => {
     if (userData && voted) {
       updateDoc(votesRef, {
-        votes: arrayRemove(userData.uid),
+        votes: arrayRemove(userData?.uid),
       }).then(() => {
-        console.log("devote");
         setVoted(false);
       }).catch((e) => {
         console.log(e);
@@ -22,9 +21,8 @@ const Vote = ({ id, votes }) => {
     }
     else {
       updateDoc(votesRef, {
-        votes: arrayUnion(userData.uid)
+        votes: arrayUnion(userData?.uid)
       }).then(() => {
-        console.log("voted");
         setVoted(true);
       }).catch((e) => {
         console.log(e);
@@ -33,11 +31,11 @@ const Vote = ({ id, votes }) => {
   };
 
   const getVotes = () => {
-    if (votes?.includes(userData.uid) && !voted) {
+    if (votes?.includes(userData?.uid) && !voted) {
       return votes.length - 1;
-    }else if (!votes?.includes(userData.uid) && voted){
+    } else if (!votes?.includes(userData?.uid) && voted) {
       return votes.length + 1;
-    }else{
+    } else {
       return votes.length;
     }
   }

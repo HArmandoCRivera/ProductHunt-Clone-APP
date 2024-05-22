@@ -3,6 +3,7 @@ import { arrayRemove, arrayUnion, doc, onSnapshot, updateDoc } from "firebase/fi
 import { useAuth } from '../../../context/AuthContext';
 import { MdDelete } from "react-icons/md";
 import { db } from "../../../firebaseConfig";
+import { Link } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import './Comment.css';
 
@@ -15,14 +16,16 @@ const Comment = ({ postId }) => {
     useEffect(() => {
         const docRef = doc(db, "products", postId);
         onSnapshot(docRef, (snapshot) => {
-            setComments(snapshot.data().comments);
+            if(snapshot.data()){
+                setComments(snapshot.data().comments);
+            }
         });
-    }, []);
+    }, [postId]);
 
     const handleChangeComment = () => {
         updateDoc(commentRef, {
             comments: arrayUnion({
-                user: userData.uid,
+                user: userData?.uid,
                 userName: userData.displayName,
                 comment: comment,
                 createdAt: new Date(),
@@ -34,7 +37,6 @@ const Comment = ({ postId }) => {
     };
 
     const handleDeleteComment = (comment) => {
-        console.log(comment);
         updateDoc(commentRef, {
             comments: arrayRemove(comment),
         })
@@ -47,27 +49,26 @@ const Comment = ({ postId }) => {
     };
     return (
         <>
-            {comments !== null &&
-                comments.map(({ commentId, user, comment, userName, createdAt }, index) => (
-                    <div key={index} className="comment-wrap">
-                        <div className="unique-comment">
-                            <div className={`badge ${user === userData.uid ? "bg-success" : "bg-primary"}`} >
-                                {userName}
-                            </div>
-                            <div className="comment-content">
-                                {comment}
-                            </div>
+            {comments?.map(({ commentId, user, comment, userName, createdAt }, index) => (
+                <div key={index} className="comment-wrap">
+                    <div className="unique-comment">
+                        <div className={`badge ${user === userData?.uid ? "bg-success" : "bg-primary"}`} >
+                            <Link to={'/profile/' + user}>{userName}</Link>
                         </div>
-                        <div className="delete-comment">
-                            {user === userData.uid && (
-                                <MdDelete className="delete-icon"
-                                    onClick={() => handleDeleteComment({ commentId, user, comment, userName, createdAt })}
-                                />
-                            )}
+                        <div className="comment-content">
+                            {comment}
                         </div>
                     </div>
-                ))}
-            {(comments == null || !comments.length) && (<div className="no-content">Sin comentarios</div>)}
+                    <div className="delete-comment">
+                        {user === userData?.uid && (
+                            <MdDelete className="delete-icon"
+                                onClick={() => handleDeleteComment({ commentId, user, comment, userName, createdAt })}
+                            />
+                        )}
+                    </div>
+                </div>
+            ))}
+            {(!comments?.length) && (<div className="no-content">Sin comentarios</div>)}
             <hr />
             {userData && (
                 <div className="comment-box">

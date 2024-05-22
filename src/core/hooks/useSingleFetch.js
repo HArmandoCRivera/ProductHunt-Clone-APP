@@ -18,15 +18,17 @@ const useSingleFetch = (collectionName, id) => {
         if (docSnap.exists()) {
           setData(docSnap.data());
 
-          const allProductsRef = collection(db, collectionName);
-          const allProductsSnap = await getDocs(allProductsRef);
-          const products = [];
-          allProductsSnap.forEach(doc => {
-            products.push(doc.data());
-          });
-          const sortedProducts = products.sort((a, b) => b.votes.length - a.votes.length);
-          const rankIndex = sortedProducts.findIndex(product => product.title === docSnap.data().title) + 1;
-          setRank(rankIndex);
+          if(collectionName === 'products'){
+            const allProductsRef = collection(db, collectionName);
+            const allProductsSnap = await getDocs(allProductsRef);
+            const products = [];
+            allProductsSnap.forEach(doc => {
+              products.push(doc.data());
+            });
+            const sortedProducts = products.sort((a, b) => b.votes.length - a.votes.length);
+            const rankIndex = sortedProducts.findIndex(product => product.title === docSnap.data().title) + 1;
+            setRank(rankIndex);
+          }
         } else {
           console.error("No document found");
         }

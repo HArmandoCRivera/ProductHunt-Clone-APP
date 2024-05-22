@@ -9,20 +9,16 @@ const Vote = ({ id, votes }) => {
   const votesRef = doc(db, "products", id);
 
   const handleVote = () => {
-    if (userData && votes?.includes(userData.uid)) {
+    if (userData && votes?.includes(userData?.uid)) {
       updateDoc(votesRef, {
-        votes: arrayRemove(userData.uid),
-      }).then(() => {
-        console.log("devote");
+        votes: arrayRemove(userData?.uid),
       }).catch((e) => {
         console.log(e);
       });
     }
     else {
       updateDoc(votesRef, {
-        votes: arrayUnion(userData.uid)
-      }).then(() => {
-        console.log("voted");
+        votes: arrayUnion(userData?.uid)
       }).catch((e) => {
         console.log(e);
       });
@@ -30,8 +26,8 @@ const Vote = ({ id, votes }) => {
   };
 
   return (
-    <button className={`vote-action ${votes?.includes(userData.uid) ? 'vote-action-active' : ''}`} onClick={handleVote}>
-      <BiSolidUpArrow className={`${votes?.includes(userData.uid) ? 'arrow-action-active' : ''}`} /><div className='total-votes'>{votes.length ?? 0}</div>
+    <button className={`vote-action ${votes?.includes(userData?.uid) ? 'vote-action-active' : ''}`} onClick={handleVote}>
+      <BiSolidUpArrow className={`${votes?.includes(userData?.uid) ? 'arrow-action-active' : ''}`} /><div className='total-votes'>{votes.length ?? 0}</div>
     </button>
   );
 };

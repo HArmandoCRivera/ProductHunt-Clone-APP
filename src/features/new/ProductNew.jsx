@@ -57,13 +57,13 @@ export const ProductNew = (props) => {
                 link: preview.link,
                 topics: [preview.topics],
                 productImg: url || "",
-                votes:[],
-                comments:[],
+                votes: [],
+                comments: [],
                 created: Date.now()
             });
             console.log("Document written with ID: ", docRef.id);
 
-            navigate("/");
+            navigate("/product/" + docRef.id);
         } catch (error) {
             console.error(error.message);
         } finally {

@@ -45,6 +45,12 @@
             border-radius: 4px;
             font-weight: bold;
         }
+
+        button.active {
+            color: white;
+            border: 1px solid #ff6154;
+            background-color: #ff6154;
+        }
     }
 }
 
@@ -63,7 +69,7 @@
         padding: 8px 16px;
         cursor: pointer;
     }
-    
+
     .chip-item:first-child,
     .chip-item:hover {
         border: 1px solid transparent;
@@ -78,11 +84,23 @@
         color: #4b587c;
         font-weight: bold;
     }
-    
-    .info{
+
+    .info {
         background-color: #f5f8ff;
         color: #4b587c;
         padding: 20px;
         margin: 20px 0;
     }
+}
+
+.follows-modal-open {
+    display: inline-flex;
+    color: #595f86;
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.follows-modal-open:hover {
+    color: #000;
 }

@@ -1,16 +1,18 @@
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { updateProfile } from 'firebase/auth';
-import { auth } from '../../firebaseConfig';
+import { auth, storage, db } from '../../firebaseConfig';
 import { useAuth } from '../../context/AuthContext';
 import { Header } from '../../core/header/Header'
 import { useNavigate } from "react-router-dom";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { arrayRemove, doc, updateDoc } from "firebase/firestore";
 import './EditProfile.css';
 
 export const EditProfile = () => {
   const { userData, dispatchLogin } = useAuth();
   const [name, setName] = useState(userData.displayName || '');
-  const [photo, setPhoto] = useState(userData.photoURL || '');
   const [previewPhoto, setPreviewPhoto] = useState(userData.photoURL || '');
+  const [photo, setPhoto] = useState(userData.photoURL || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const imageRef = useRef(null);
@@ -21,18 +23,33 @@ export const EditProfile = () => {
     setError('');
 
     try {
+      let url;
+      if (photo) {
+        const storageRef = ref(storage, `avatars/${userData.uid}/${photo.name}`);
+        await uploadBytes(storageRef, photo);
+        url = await getDownloadURL(storageRef);
+        console.log("Thumb uploaded: ", url);
+      }
+
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: photo
+        photoURL: url
       });
 
-      dispatchLogin({
+      await updateDoc(doc(db, "users", userData.uid), {
+        displayName: name,
+        photoURL: url
+      }).catch((e) => {
+        console.log(e);
+      });
+
+      await dispatchLogin({
         ...userData,
         displayName: name,
-        photoURL: photo
+        photoURL: url
       });
 
-      navigate("/profile");
+      navigate('/profile/' + userData?.uid);
     } catch (error) {
       setError(error.message);
       console.error('Error al actualizar el perfil:', error);
@@ -46,7 +63,8 @@ export const EditProfile = () => {
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setPreviewPhoto(imageUrl);
-      setPhoto(imageUrl);
+      setPhoto(file);
+      console.log({ photo });
     }
   };
 

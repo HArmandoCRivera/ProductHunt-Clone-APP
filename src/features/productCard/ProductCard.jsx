@@ -1,7 +1,6 @@
 import React from 'react'
 import { FaRegComment } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import { BiSolidUpArrow } from "react-icons/bi";
 import './ProductCard.css';
 import Vote from './actions/Vote';
 
@@ -12,8 +11,6 @@ export const ProductCard = (props) => {
     const goToProduct = (id) => {
         navigate('/product/' + id);
     }
-
-    console.log({ productCard: props })
 
     return (
         <div key={props?.productKey ?? 0} className="card-wrapper">
@@ -26,7 +23,7 @@ export const ProductCard = (props) => {
                         <span className="product-slogan">{props?.data?.tagline ?? ''}</span>
                     </div>
                     <div className="product-desc">
-                        <span className="comments-count"><FaRegComment className="comment-icon" /> {props?.data?.comments.length ?? 0}</span>
+                        <span className="comments-count"><FaRegComment className="comment-icon" /> {props?.data?.comments?.length ?? 0}</span>
                         {!Array.isArray(props.data.topics) ? (<span className="product-tag">Nothing</span>) : (props.data.topics.map((category, index) => (
                             <span key={index}>•<span className="product-tag">{category}</span></span>
                         )))}

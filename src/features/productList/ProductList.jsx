@@ -1,28 +1,11 @@
-import React, { useEffect } from 'react'
-import { auth } from '../../firebaseConfig';
-import { getRedirectResult } from 'firebase/auth';
+import React from 'react'
 import { useAuth } from '../../context/AuthContext';
 import { ProductCard } from '../productCard/ProductCard';
-import './ProductList.css';
 import Loading from '../../core/loading/loading';
+import './ProductList.css';
 
 export const ProductList = () => {
-  const { dispatchLogin, productData, productLoading } = useAuth();
-
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then(function (result) {
-        console.log(result);
-        if (result?.user) {
-          dispatchLogin(result.user);
-        }
-      })
-      .catch(function (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
-  }, [dispatchLogin]);
+  const { productData, productLoading } = useAuth();
 
   return (
     <div className="product-list">

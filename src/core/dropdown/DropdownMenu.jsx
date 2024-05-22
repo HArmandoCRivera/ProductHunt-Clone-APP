@@ -6,10 +6,10 @@ import { useNavigate } from 'react-router-dom';
 
 export const DropDownMenu = () => {
     const navigate = useNavigate();
-    const { isLoggedIn, login, logout } = useAuth();
+    const { isLoggedIn, login, logout, userData } = useAuth();
 
     const navigateProfile = () => {
-        navigate('/profile');
+        navigate('/profile/' + userData?.uid);
     }
     const handleLogout = () => {
         logout()
