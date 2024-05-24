@@ -1,0 +1,39 @@
+.follow-card-wrapper {
+    margin-bottom: 10px;
+    cursor: pointer;
+    padding: 5px 10px;
+    width: 100%;
+    transition: 0.45s all;
+}
+
+.follow-card-wrapper:hover {
+    background-color: #ccc;
+    border-radius: 8px;
+}
+
+.follow-card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.follow-card-card {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.follow-card-card img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.follow-card-data {
+    text-decoration: none !important;
+}
+
+.link-tofollow,
+.link-tofollow:visited {
+    color: #000;
+    text-decoration: none;
+}

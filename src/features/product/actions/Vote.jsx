@@ -5,12 +5,12 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 
 const Vote = ({ id, votes }) => {
-  const { userData } = useAuth();
+  const { isLoggedIn, userData } = useAuth();
   const [voted, setVoted] = useState(votes?.includes(userData?.uid));
   const votesRef = doc(db, "products", id);
 
   const handleVote = () => {
-    if (userData && voted) {
+    if (isLoggedIn && voted) {
       updateDoc(votesRef, {
         votes: arrayRemove(userData?.uid),
       }).then(() => {
@@ -19,7 +19,7 @@ const Vote = ({ id, votes }) => {
         console.log(e);
       });
     }
-    else {
+    else if(isLoggedIn) {
       updateDoc(votesRef, {
         votes: arrayUnion(userData?.uid)
       }).then(() => {

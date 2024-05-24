@@ -23,14 +23,16 @@ export const Follows = (props) => {
                                             <FollowCard userId={followUserId} />
                                         </div>
                                     ))}
+                                    {!props.followers?.length ? (<span>No data.</span>) : null}
                                 </div>
                                 <div className="followers">
                                     <h4>Followings</h4>
-                                    {props.following?.map((followUserId, index) => (
+                                    {props.following && props.following?.map((followUserId, index) => (
                                         <div className="" key={index}>
                                             <FollowCard userId={followUserId} />
                                         </div>
                                     ))}
+                                    {!props.following?.length ? (<span>No data.</span>) : null}
                                 </div>
                             </div>
                         </div>

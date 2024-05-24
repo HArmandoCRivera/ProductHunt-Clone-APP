@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import { Header } from '../../core/header/Header'
 import './Home.css';
 import { ProductList } from '../productList/ProductList';
-export const Home = () => {
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
+import { useAuth } from '../../context/AuthContext';
 
+export const Home = () => {
+  const { userData, isLoggedIn } = useAuth();
+  const [followings, setFollowings] = useState([]);
+  const [averageVotes, setAverageVotes] = useState(0);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const docRef = doc(db, "users", userData.uid);
+
+      const unsubscribe = onSnapshot(docRef, (snapshot) => {
+        setFollowings(snapshot.data().follows || []);
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [userData, isLoggedIn]);
+
+  const handleAverageVotes = (average) => {
+    setAverageVotes(average)
+  };
 
   return (
     <div>
@@ -18,10 +42,21 @@ export const Home = () => {
           </div>
 
           <div className="top-products">
-            <h2>Top Products Launching Today</h2>
+            <div className='top-header'>
+              <h2>Top Products Launching Today</h2>
+              <div className="prom"><b>Average:</b> {averageVotes}</div>
+            </div>
             <hr />
-            <ProductList />
+            <ProductList onAverageVotes={handleAverageVotes} />
           </div>
+          <br />
+          {followings && followings.length ? (
+            <div className="promoted-products">
+              <h3>Followed Products</h3>
+              <hr />
+              <ProductList followings={followings} />
+            </div>
+          ) : null}
         </div>
 
         <div className='extra-info'>

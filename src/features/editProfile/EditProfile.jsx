@@ -5,14 +5,14 @@ import { useAuth } from '../../context/AuthContext';
 import { Header } from '../../core/header/Header'
 import { useNavigate } from "react-router-dom";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { arrayRemove, doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import './EditProfile.css';
 
 export const EditProfile = () => {
   const { userData, dispatchLogin } = useAuth();
   const [name, setName] = useState(userData.displayName || '');
   const [previewPhoto, setPreviewPhoto] = useState(userData.photoURL || '');
-  const [photo, setPhoto] = useState(userData.photoURL || '');
+  const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const imageRef = useRef(null);
@@ -24,6 +24,7 @@ export const EditProfile = () => {
 
     try {
       let url;
+      console.log({photo })
       if (photo) {
         const storageRef = ref(storage, `avatars/${userData.uid}/${photo.name}`);
         await uploadBytes(storageRef, photo);
@@ -33,12 +34,12 @@ export const EditProfile = () => {
 
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: url
+        photoURL: url ?? userData.photoURL
       });
 
       await updateDoc(doc(db, "users", userData.uid), {
         displayName: name,
-        photoURL: url
+        photoURL: url ?? userData.photoURL
       }).catch((e) => {
         console.log(e);
       });
@@ -46,7 +47,7 @@ export const EditProfile = () => {
       await dispatchLogin({
         ...userData,
         displayName: name,
-        photoURL: url
+        photoURL: url ?? userData.photoURL
       });
 
       navigate('/profile/' + userData?.uid);

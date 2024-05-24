@@ -13,6 +13,38 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, .1), 0 1px 4px rgba(0, 0, 0, .05);
 }
 
+.topics-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    flex-wrap: wrap;
+}
+
+.topics-input {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+}
+
+.topic-chip {
+    display: flex;
+    align-items: center;
+    background-color: #e0e0e0;
+    border-radius: 16px;
+    padding: 5px 10px;
+}
+
+.topic-chip .remove-topic {
+    background: none;
+    border: none;
+    padding: 0 4px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
 .pricing,
 .product-form-card label {
     margin-bottom: 20px;
@@ -23,6 +55,13 @@
 .product-form-card label .hint {
     font-weight: normal;
     color: #5e5e5e;
+}
+
+.product-form-card label select{
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #b9b9b9;
+    box-sizing: border-box;
 }
 
 .product-form-card label input[type="text"],
@@ -70,6 +109,7 @@ button.new-post {
 button.new-post:hover {
     background-color: #e64132;
 }
+
 button.new-post:disabled {
     opacity: 0.8;
     pointer-events: none;

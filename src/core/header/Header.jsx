@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { setDoc, getDoc, doc } from "firebase/firestore";
 import { auth, db } from '../../firebaseConfig';
 import { getRedirectResult } from 'firebase/auth';
@@ -6,14 +6,16 @@ import { TfiSearch } from "react-icons/tfi";
 import { BsBell } from "react-icons/bs";
 import { useAuth } from '../../context/AuthContext';
 import { Login } from '../login/Login';
-import { DropDownMenu } from '../dropdown/DropdownMenu'
-import { Link } from 'react-router-dom'
+import { DropDownMenu } from '../dropdown/DropdownMenu';
+import { Link, useNavigate } from 'react-router-dom';
 import paths from '../../routes/paths';
 import './Header.css';
 
 export const Header = (props) => {
     const { isLoggedIn, login, userData, dispatchLogin } = useAuth();
     const [isOpenLogin, setOpenLogin] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
     const handleSignIn = async () => {
         await login();
@@ -28,6 +30,15 @@ export const Header = (props) => {
         setDropdownVisible(!isDropdownVisible);
     };
 
+    const handleSearch = (e) => {
+        if (e.key === 'Enter') {
+            if(searchQuery.length){
+                navigate(`/${paths.PRODUCTS}/search/${searchQuery}`);
+            }else{
+                navigate(`/${paths.PRODUCTS}`);
+            }
+        }
+    };
 
     useEffect(() => {
         getRedirectResult(auth)
@@ -60,8 +71,10 @@ export const Header = (props) => {
                 });
             }
         }
-        verifyUser();
-    }, [userData]);
+        if(isLoggedIn){
+            verifyUser();
+        }
+    }, [userData, isLoggedIn]);
 
     return (
         <>
@@ -75,12 +88,15 @@ export const Header = (props) => {
                         <input className='search-input'
                             type="text"
                             placeholder="Search ( ctrl + k )"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyDown={handleSearch}
                         />
                     </div>
                 </div>
                 <div className="nav-user-flex">
                     <div className="nav-links-sec">
-                        <NavLinks url={'/' + paths.PRODUCTS} name="Launches  " />
+                        <NavLinks url={'/'} name="Launches  " />
                         <NavLinks url={'/' + paths.PRODUCTS} name="Products" />
                         <NavLinks url="##" name="News" />
                         <NavLinks url="##" name="Community" />

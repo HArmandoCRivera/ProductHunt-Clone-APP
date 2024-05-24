@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { collection, addDoc } from "firebase/firestore";
+import React, { useState, useRef, useEffect } from 'react';
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { db, storage } from "../../firebaseConfig";
 import { useAuth } from '../../context/AuthContext';
@@ -13,6 +13,7 @@ export const ProductNew = (props) => {
     const imageRef = useRef(null);
     const [imageUrl, setImageUrl] = useState("");
     const [loading, setLoading] = useState(false);
+    const [topicsList, setTopicsList] = useState([]);
     const initialForm = {
         title: "",
         tagline: "",
@@ -24,8 +25,18 @@ export const ProductNew = (props) => {
     };
     const [preview, setPreview] = useState(initialForm);
 
+    useEffect(() => {
+        const fetchTopics = async () => {
+            const topicsSnapshot = await getDocs(collection(db, "topics"));
+            const topics = topicsSnapshot.docs.map(doc => doc.data().name);
+            setTopicsList(topics);
+        };
+
+        fetchTopics();
+    }, []);
+
     const validateForm = () => {
-        const requiredFields = [preview.title, preview.tagline, preview.link, imageUrl, preview.desc];
+        const requiredFields = [preview.title, preview.tagline, preview.link, imageUrl, preview.desc, preview.topics];
         if (requiredFields.some(field => !field)) {
             alert("Please fill out all required fields.");
             return false;
@@ -55,7 +66,7 @@ export const ProductNew = (props) => {
                 tagline: preview.tagline,
                 desc: preview.desc,
                 link: preview.link,
-                topics: [preview.topics],
+                topics: preview.topics,
                 productImg: url || "",
                 votes: [],
                 comments: [],
@@ -69,6 +80,18 @@ export const ProductNew = (props) => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleTopicChange = (e) => {
+        const selectedTopic = e.target.value;
+        if (selectedTopic && !preview.topics.includes(selectedTopic)) {
+            setPreview({ ...preview, topics: [...preview.topics, selectedTopic] });
+        }
+    };
+
+    const removeTopic = (index) => {
+        const newTopics = preview.topics.filter((_, i) => i !== index);
+        setPreview({ ...preview, topics: newTopics });
     };
 
     return (
@@ -95,10 +118,22 @@ export const ProductNew = (props) => {
                     </label>
 
                     <label>Topics
-                        <input type="text" name="topics" placeholder="Add a topic" value={preview.topics}
-                            onChange={(e) =>
-                                setPreview({ ...preview, topics: e.target.value })
-                            } />
+                        <div className="topics-input-container">
+                            <div className="topics-input">
+                                {preview.topics && preview.topics.map((topic, index) => (
+                                    <div key={index} className="topic-chip">
+                                        {topic}
+                                        <div className="remove-topic" type="button" onClick={(e) => { e.stopPropagation(); removeTopic(index); }}>x</div>
+                                    </div>
+                                ))}
+                                <select onChange={handleTopicChange} value="">
+                                    <option value="" disabled>Select a topic</option>
+                                    {topicsList.filter(topic => !preview.topics.includes(topic)).map((topic, index) => (
+                                        <option key={index} value={topic}>{topic}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                     </label>
 
                     <label>Download link <span className="hint">- App Store, Google Play...</span>
@@ -136,8 +171,8 @@ export const ProductNew = (props) => {
                             {loading ? "Submitting..." : "Launch now"}
                         </button>
                     </div>
-                </div>
-            </div>
+                </div >
+            </div >
         </>
     )
 }

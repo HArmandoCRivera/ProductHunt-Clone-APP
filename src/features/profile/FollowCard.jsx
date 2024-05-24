@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { onSnapshot, doc } from "firebase/firestore";
-import { Link } from 'react-router-dom'
 import { db } from "../../firebaseConfig";
 import Loading from '../../core/loading/loading';
-import './Profile.css';
+import { Link } from 'react-router-dom';
+import './FollowCard.css';
 
 export const FollowCard = (props) => {
     const [profile, setProfile] = useState(null);
@@ -20,19 +20,16 @@ export const FollowCard = (props) => {
     return (
         <div>
             {!profile ? (<Loading />) : (profile &&
-                <div className='user-wrapper'>
-                    <div className="user-header">
-                        <div className='user-card'>
-                            <img src={profile.photoURL ?? "/images/avatar.jpg"} alt="avatar" />
-                            <div className="user-data">
-                                <h3>{profile.displayName}</h3>
+                <Link to={'/profile/' + profile.userId} className='link-tofollow'>
+                    <div className='follow-card-wrapper'>
+                        <div className="follow-card-header">
+                            <div className='follow-card-card'>
+                                <img src={profile.photoURL ?? "/images/avatar.jpg"} alt="avatar" />
+                                <div className="follow-card-data">{profile.displayName}</div>
                             </div>
                         </div>
-                        <div className="edit-option">
-                            <Link to={"/profile/" + profile.userId}><button>Visit profile</button></Link>
-                        </div>
                     </div>
-                </div>
+                </Link>
             )}
         </div>
     )

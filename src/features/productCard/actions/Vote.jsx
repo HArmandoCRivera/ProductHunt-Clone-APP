@@ -5,18 +5,18 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 
 const Vote = ({ id, votes }) => {
-  const { userData } = useAuth();
+  const { isLoggedIn, userData } = useAuth();
   const votesRef = doc(db, "products", id);
 
   const handleVote = () => {
-    if (userData && votes?.includes(userData?.uid)) {
+    if (isLoggedIn && votes?.includes(userData?.uid)) {
       updateDoc(votesRef, {
         votes: arrayRemove(userData?.uid),
       }).catch((e) => {
         console.log(e);
       });
     }
-    else {
+    else if(isLoggedIn) {
       updateDoc(votesRef, {
         votes: arrayUnion(userData?.uid)
       }).catch((e) => {

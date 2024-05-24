@@ -8,12 +8,12 @@ import { ProductNew } from "../features/new/ProductNew";
 import { Profile } from "../features/profile/Profile";
 import { Protected } from "./protected";
 import { EditProfile } from "../features/editProfile/EditProfile";
-import { ProductList } from "../features/productList/ProductList";
 
 export const AppRouter = createBrowserRouter(createRoutesFromElements(
     <Route path={paths.HOME}>
         <Route index element={<Home />} />
         <Route path={paths.PRODUCT} element={<Product />} />
+        <Route path={`${paths.PRODUCTS}/search/:search`} element={<ProductPage />} />
         <Route path={paths.PRODUCTS} element={<ProductPage />} />
         <Route element={<Protected />}>
             <Route path={paths.PRODUCT_NEW} element={<ProductNew />} />

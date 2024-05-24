@@ -15,47 +15,61 @@ export const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [isOpenFollows, setOpenFollows] = useState(false);
 
-  const userRef = doc(db, "users", id);
+  useEffect(() => {
+    const docRef = doc(db, "users", id);
 
-  const toggleFollows = e => {
+    const unsubscribe = onSnapshot(docRef, (snapshot) => {
+      if (snapshot.data()) {
+        console.log({ validateUser: snapshot.data().userId === id });
+        console.log({ validateParamId: id });
+        console.log({ validateUserId: snapshot.data().userId });
+        setProfile(snapshot.data());
+        setOpenFollows(false);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [id]);
+
+  const toggleFollows = () => {
     setOpenFollows(!isOpenFollows);
   };
 
-  useEffect(() => {
-    const docRef = doc(db, "users", id);
-    onSnapshot(docRef, (snapshot) => {
-      if (snapshot.data()) {
-        setProfile(snapshot.data());
-      }
-    });
-  }, [id]);
-
   const handleFollow = () => {
     if (userData && profile?.followers?.includes(userData?.uid)) {
-      updateDoc(userRef, {
-        followers: arrayRemove(userData?.uid),
-      }).catch((e) => {
-        console.log(e);
-      });
-      updateDoc(doc(db, "users", userData.uid), {
-        follows: arrayRemove(userData?.uid)
-      }).catch((e) => {
-        console.log(e);
-      });
-    }
-    else {
-      updateDoc(userRef, {
-        followers: arrayUnion(userData?.uid)
-      }).catch((e) => {
-        console.log(e);
-      });
-      updateDoc(doc(db, "users", userData.uid), {
-        follows: arrayUnion(userData?.uid),
-      }).catch((e) => {
-        console.log(e);
-      });
+      unFollowUser();
+    } else if (userData && !profile?.followers?.includes(userData?.uid)) {
+      followUser();
     }
   };
+
+  const followUser = () => {
+    updateDoc(doc(db, "users", id), {
+      followers: arrayUnion(userData?.uid)
+    }).catch((e) => {
+      console.log(e);
+    });
+    updateDoc(doc(db, "users", userData.uid), {
+      follows: arrayUnion(id),
+    }).catch((e) => {
+      console.log(e);
+    });
+  }
+
+  const unFollowUser = () => {
+    updateDoc(doc(db, "users", id), {
+      followers: arrayRemove(userData?.uid),
+    }).catch((e) => {
+      console.log(e);
+    });
+    updateDoc(doc(db, "users", userData.uid), {
+      follows: arrayRemove(id)
+    }).catch((e) => {
+      console.log(e);
+    });
+  }
 
   return (
     <div>
@@ -70,8 +84,8 @@ export const Profile = () => {
               <div className="user-data">
                 <h3>{profile.displayName}</h3>
                 <p>{profile.email}</p>
-                <div>#541984
-                  <div onClick={() => { setOpenFollows(true); console.log({ profile }) }} className="follows-modal-open">
+                <div>
+                  <div onClick={() => { setOpenFollows(true); }} className="follows-modal-open">
                     {profile.followers.length} followers {profile.follows?.length} following
                   </div>
                 </div>
@@ -83,7 +97,7 @@ export const Profile = () => {
                   className={profile?.followers?.includes(userData?.uid) ? '' : 'active'}>
                   {profile?.followers?.includes(userData?.uid) ? 'Unfollow' : 'Follow'}
                 </button>) : (
-                <Link to="/profile/edit"><button>Edit my profile</button></Link>
+                <Link to="/edit"><button>Edit my profile</button></Link>
               )}
             </div>
           </div>

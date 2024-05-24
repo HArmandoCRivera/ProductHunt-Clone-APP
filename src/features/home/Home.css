@@ -25,9 +25,17 @@
     width: 100%;
 }
 
-.top-products h2 {
+.top-products .top-header h2 {
     color: #212946;
     font-weight: 500;
+    margin: 10px 0;
+    width: max-content;
+}
+
+.top-products .top-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .top-products hr {

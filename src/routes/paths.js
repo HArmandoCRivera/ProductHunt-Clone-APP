@@ -1,7 +1,7 @@
 const paths = {
     HOME: "/",
     PROFILE: "profile/:id",
-    EDITPROFILE: "profile/edit",
+    EDITPROFILE: "edit",
     PRODUCTS: "products",
     PRODUCT: "product/:id",
     PRODUCT_NEW: "new"
